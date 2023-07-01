@@ -40,12 +40,12 @@ class ExtraNetwork:
 class Prompt:
     orig_tokens: list[Token]
     tokens: list[Token]
-    extra_networks: list[ExtraNetwork]
+    extra_networks: dict[str, ExtraNetwork]
 
     def __init__(self, s: str):
         self.orig_tokens = tokenize(s)
         self.tokens = []
-        self.extra_networks = []
+        self.extra_networks = dict()
 
         extra_network_tokens = []
         for token in self.orig_tokens:
@@ -63,7 +63,7 @@ class Prompt:
             self.tokens.extend(extra_network_tokens)
 
     def __str__(self):
-        fragments = [str(en) for en in self.extra_networks]
+        fragments = [str(en) for en in self.extra_networks.values()]
         
         prev_token = None
         for token in self.tokens:
@@ -75,7 +75,13 @@ class Prompt:
         return "".join(fragments)
 
     def add_extra_network(self, extra_network: ExtraNetwork):
-        self.extra_networks.append(extra_network)
+        key = f"${extra_network.net_type}:${extra_network.net_name}"
+        prev_network = self.extra_networks[key]
+        if not prev_network:
+            self.extra_networks[key] = extra_network
+            return
+        
+        prev_network.weight = max(prev_network.weight, extra_network.weight)
 
 import unittest
 
