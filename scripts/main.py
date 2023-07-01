@@ -8,6 +8,7 @@ from modules import script_callbacks, shared
 from storage import Storage
 from replacer import Replacer
 
+shared.opts.add_option("enable_prompt_sub_rules", shared.OptionInfo("", "Enable prompt substitution", gr.Checkbox, section=(None,)))
 shared.opts.add_option("prompt_sub_rules", shared.OptionInfo("", "Default prompt substitution rules", gr.Textbox, section=(None,)))
 
 storage_rule = Storage(os.path.join(scripts.basedir(), "rule"))
@@ -27,6 +28,9 @@ class Script(scripts.Script):
         return ()
 
     def process(self, p):
+        if not getattr(shared.opts, 'enable_prompt_sub_rules', True):
+            return
+
         replacer = Replacer()
 
         for sub_rule_name in getattr(shared.opts, 'prompt_sub_rules', "").split(','):
@@ -124,6 +128,10 @@ class Interface:
     @classmethod
     def on_ui_tabs(cls):
         with gr.Blocks(analytics_enabled=False) as prompt_sub_rule_tab:
+            with gr.Box(elem_classes="ch_box"):
+                with gr.Row():
+                    checkbox_enable = gr.Checkbox(lambda: getattr(shared.opts, 'enable_prompt_sub_rules', True), "Enable")
+                    checkbox_enable.change(lambda enabled: shared.opts.set('enable_prompt_sub_rules', enabled), inputs=checkbox_enable)
             cls.create_rule_ui()
             # cls.create_ruleset_ui()
             cls.init_ui_handler()
