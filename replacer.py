@@ -73,8 +73,8 @@ class Replacer:
                 curr_entry.tag_regexs.append(re.compile(line[3:].lstrip(), re.I))
             
             if line.startswith("keyword:"):
-                keyword_regex = "|".join(keyword.strip() for keyword in line[8:].split(","))
-                curr_entry.tag_regexs.append(re.compile(keyword_regex, re.I))
+                keyword_regex = "|".join(re.escape(keyword.strip()) for keyword in line[8:].split(","))
+                curr_entry.tag_regexs.append(re.compile(f"\\b({keyword_regex})\\b", re.I))
 
     def replace(self, prompt_txt: str):
         if not len(self.entries): return prompt_txt
