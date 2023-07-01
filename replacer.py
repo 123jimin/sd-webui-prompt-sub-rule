@@ -19,17 +19,20 @@ class Entry:
             prompt.add_extra_network(extra)
 
     def process(self, prompt: Prompt):
+        token_text_list = []
         for i in range(len(prompt.tokens)):
             token = prompt.tokens[i]
             if token.kind != TokenKind.TEXT: continue
 
             token_text = str(token)
+            token_text_list.append(token_text)
             
             if token_text.lower() in self.tags:
                 prompt.tokens = prompt.tokens[:i] + self.out.tokens + prompt.tokens[i+1:]
                 self.add_extra_networks(prompt)
                 return
         
+        for token_text in token_text_list:
             for tag_regex in self.tag_regexs:
                 if tag_regex.search(token_text):
                     self.add_extra_networks(prompt)
