@@ -130,8 +130,8 @@ class Interface:
         with gr.Blocks(analytics_enabled=False) as prompt_sub_rule_tab:
             with gr.Box(elem_classes="ch_box"):
                 with gr.Row():
-                    checkbox_enable = gr.Checkbox(lambda: getattr(shared.opts, 'enable_prompt_sub_rules', True), "Enable")
-                    checkbox_enable.change(lambda enabled: shared.opts.set('enable_prompt_sub_rules', enabled), inputs=checkbox_enable)
+                    checkbox_enable = gr.Checkbox((lambda: getattr(shared.opts, 'enable_prompt_sub_rules', True)), label="Enable")
+                    checkbox_enable.change((lambda enabled: shared.opts.set('enable_prompt_sub_rules', enabled)), inputs=checkbox_enable)
             cls.create_rule_ui()
             # cls.create_ruleset_ui()
             cls.init_ui_handler()
