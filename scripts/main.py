@@ -28,7 +28,7 @@ class Script(scripts.Script):
         return ()
 
     def process(self, p):
-        if not getattr(shared.opts, 'enable_prompt_sub_rules', True):
+        if not getattr(shared.opts, 'enable_prompt_sub_rules', False):
             return
 
         replacer = Replacer()
@@ -98,7 +98,6 @@ class Interface:
             with gr.Row():
                 cls.in_rule = gr.Textbox(lines=5, max_lines=40, label="Rule")
             with gr.Row():
-                print(cls.get_default_rules())
                 cls.in_default_rules = gr.Dropdown(cls.list_rules(False), label="Default Rules", multiselect=True, value=cls.get_default_rules)
 
     @classmethod
@@ -130,7 +129,7 @@ class Interface:
         with gr.Blocks(analytics_enabled=False) as prompt_sub_rule_tab:
             with gr.Box(elem_classes="ch_box"):
                 with gr.Row():
-                    checkbox_enable = gr.Checkbox((lambda: getattr(shared.opts, 'enable_prompt_sub_rules', True)), label="Enable")
+                    checkbox_enable = gr.Checkbox((lambda: getattr(shared.opts, 'enable_prompt_sub_rules', False)), label="Enable")
                     checkbox_enable.change((lambda enabled: shared.opts.set('enable_prompt_sub_rules', enabled)), inputs=checkbox_enable)
             cls.create_rule_ui()
             # cls.create_ruleset_ui()
