@@ -15,7 +15,7 @@ class Entry:
         self.tag_regexs = []
 
     def add_extra_networks(self, prompt: Prompt):
-        for extra in self.out.extra_networks:
+        for extra in self.out.extra_networks.values():
             prompt.add_extra_network(extra)
 
     def process(self, prompt: Prompt):
