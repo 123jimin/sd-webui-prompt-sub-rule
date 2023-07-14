@@ -75,12 +75,12 @@ class Prompt:
         return "".join(fragments)
 
     def add_extra_network(self, extra_network: ExtraNetwork):
-        key = f"${extra_network.net_type}:${extra_network.net_name}"
-        prev_network = self.extra_networks[key]
-        if not prev_network:
+        key = f"{extra_network.net_type}:{extra_network.net_name}"
+        if key not in self.extra_networks:
             self.extra_networks[key] = extra_network
             return
         
+        prev_network = self.extra_networks[key]        
         prev_network.weight = max(prev_network.weight, extra_network.weight)
 
 import unittest
