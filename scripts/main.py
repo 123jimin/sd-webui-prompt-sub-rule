@@ -8,8 +8,8 @@ from modules import script_callbacks, shared
 from storage import Storage
 from replacer import Replacer
 
-shared.opts.add_option("enable_prompt_sub_rules", shared.OptionInfo("", "Enable prompt substitution", gr.Checkbox, section=(None,)))
-shared.opts.add_option("prompt_sub_rules", shared.OptionInfo("", "Default prompt substitution rules", gr.Textbox, section=(None,)))
+shared.opts.add_option("enable_prompt_sub_rules", shared.OptionInfo("", "Enable prompt substitution", gr.Checkbox, section=(None, '')))
+shared.opts.add_option("prompt_sub_rules", shared.OptionInfo("", "Default prompt substitution rules", gr.Textbox, section=(None, '')))
 
 storage_rule = Storage(os.path.join(scripts.basedir(), "rule"))
 storage_ruleset = Storage(os.path.join(scripts.basedir(), "ruleset"))
