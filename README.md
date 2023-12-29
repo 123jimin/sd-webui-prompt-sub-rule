@@ -1,6 +1,9 @@
 # sd-webui-prompt-sub-rule
 Create and manage prompt substituion rules; extension for sd-webui.
 
+> [!WARNING]
+> This extension is deprecated. Use [sd-prompt-parser](https://github.com/123jimin/sd-prompt-parser) instead to create your own solution.
+
 ## Rule syntax
 
 Consider the case where a rule named `Example` is defined as following.
